@@ -13,8 +13,8 @@ class Pet(BaseMixin, Base):
     full_name = Column(String(255), nullable=False)
     pet_type_id = Column(ForeignKey('pet_type.id'), nullable=False)
     pet_type = relationship('PetType')
-    owner_id = Column(ForeignKey('user.id'), nullable=False)
-    owner = relationship('User')
+    owner_id = Column(ForeignKey('owner.id'), nullable=False)
+    owner = relationship('Owner')
 
 
 class PetType(BaseMixin, Base):
@@ -23,3 +23,9 @@ class PetType(BaseMixin, Base):
     title = Column(String(255), nullable=False, unique=True)
 
 
+class Owner(BaseMixin, Base):
+    __tablename__ = 'owner'
+
+    full_name = Column(String(255), nullable=False)
+    email = Column(String(255), default='')
+    login = Column(String(255), nullable=False, unique=True)
