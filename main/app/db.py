@@ -5,7 +5,7 @@ from main.api.models.base import Base
 from config import config
 
 
-engine = create_async_engine(config.DB_URL, echo=True)
+engine = create_async_engine(config.DB_PG_URL, echo=True)
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
@@ -24,4 +24,5 @@ def db_transaction(func):
 @db_transaction
 async def db_setup(session) -> None:
     async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
